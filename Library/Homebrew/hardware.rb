@@ -16,7 +16,6 @@ class Hardware
   end
 
   def self.intel_family
-    
     if OS.mac?
       @@intel_family ||= `/usr/sbin/sysctl -n hw.cpufamily`.to_i
 
@@ -35,10 +34,14 @@ class Hardware
         :dunno
       end
     elsif OS.linux?
-      model_name = `cat /proc/cpuinfo | grep "model name"`.split("\n")[0].downcase
-      case model_name
+      @@family_name = `cat /proc/cpuinfo | grep "model name"`.split("\n")[0].downcase
+      case @@family_name
       when /core\(tm\)2/
         :core2
+      when /xeon/
+        :xeon
+      when /opteron/
+        :opteron
       else
         :dunno
       end
