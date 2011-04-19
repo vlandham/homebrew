@@ -1,4 +1,10 @@
+require 'os'
+
 def blacklisted? name
+  OS.mac? ? mac_blacklisted?(name) : linux_blacklisted(name)
+end
+
+def mac_blacklisted? name
   case name.downcase
   when 'vim', 'screen', /^rubygems?$/ then <<-EOS.undent
     Apple distributes #{name} with OS X, you can find it in /usr/bin.
@@ -43,6 +49,17 @@ def blacklisted? name
 
     To do it in one line, use this command:
       curl http://npmjs.org/install.sh | sh
+    EOS
+  end
+end
+
+def linux_blacklisted name
+  case name.downcase
+  when 'tex', 'tex-live', 'texlive' then <<-EOS.undent
+    Installing TeX from source is weird and gross, requires a lot of patches,
+    and only builds 32-bit.
+
+    We recommend using your repository system for this
     EOS
   end
 end
