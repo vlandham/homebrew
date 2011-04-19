@@ -10,7 +10,7 @@ class BdwGc < Formula
   def install
     # ucontext has been deprecated in 10.6
     # use this flag to force the header to compile
-    ENV.append 'CPPFLAGS', "-D_XOPEN_SOURCE" if MacOS.snow_leopard?
+    ENV.append 'CPPFLAGS', "-D_XOPEN_SOURCE" if OS.snow_leopard?
 
     system "./configure", "--disable-debug", "--disable-dependency-tracking",
                           "--prefix=#{prefix}"

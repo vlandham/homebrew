@@ -8,7 +8,7 @@ class Couchdb < Formula
   depends_on 'spidermonkey'
   depends_on 'icu4c'
   depends_on 'erlang'
-  depends_on 'curl' if MacOS.leopard?
+  depends_on 'curl' if OS.leopard?
 
   def install
     system "./bootstrap" if File.exists? "bootstrap"

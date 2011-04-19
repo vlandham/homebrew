@@ -18,13 +18,13 @@ module HomebrewEnvExtension
       self['CMAKE_PREFIX_PATH'] = "#{HOMEBREW_PREFIX}"
     end
 
-    if MACOS_VERSION >= 10.6 and (self['HOMEBREW_USE_LLVM'] or ARGV.include? '--use-llvm')
-      self['CC'] = "#{MacOS.xcode_prefix}/usr/bin/llvm-gcc"
-      self['CXX'] = "#{MacOS.xcode_prefix}/usr/bin/llvm-g++"
+    if OS.version >= 10.6 and (self['HOMEBREW_USE_LLVM'] or ARGV.include? '--use-llvm')
+      self['CC'] = "#{OS.xcode_prefix}/usr/bin/llvm-gcc"
+      self['CXX'] = "#{OS.xcode_prefix}/usr/bin/llvm-g++"
       cflags = ['-O4'] # link time optimisation baby!
-    elsif MACOS_VERSION >= 10.6 and (self['HOMEBREW_USE_GCC'] or ARGV.include? '--use-gcc')
-      self['CC'] = "#{MacOS.xcode_prefix}/usr/bin/gcc"
-      self['CXX'] = "#{MacOS.xcode_prefix}/usr/bin/g++"
+    elsif OS.version >= 10.6 and (self['HOMEBREW_USE_GCC'] or ARGV.include? '--use-gcc')
+      self['CC'] = "#{OS.xcode_prefix}/usr/bin/gcc"
+      self['CXX'] = "#{OS.xcode_prefix}/usr/bin/g++"
       cflags = ['-O3']
     else
       # If these aren't set, many formulae fail to build
@@ -45,7 +45,7 @@ module HomebrewEnvExtension
     # http://gcc.gnu.org/onlinedocs/gcc-4.2.1/gcc/i386-and-x86_002d64-Options.html
     # We don't set, eg. -msse3 because the march flag does that for us:
     # http://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/i386-and-x86_002d64-Options.html
-    if MACOS_VERSION >= 10.6
+    if OS.version >= 10.6
       case Hardware.intel_family
       when :nehalem, :penryn, :core2
         # the 64 bit compiler adds -mfpmath=sse for us
@@ -123,8 +123,8 @@ module HomebrewEnvExtension
   end
 
   def llvm
-    self['CC'] = "#{MacOS.xcode_prefix}/usr/bin/llvm-gcc"
-    self['CXX'] = "#{MacOS.xcode_prefix}/usr/bin/llvm-g++"
+    self['CC'] = "#{OS.xcode_prefix}/usr/bin/llvm-gcc"
+    self['CXX'] = "#{OS.xcode_prefix}/usr/bin/llvm-g++"
     self['LD'] = self['CC']
     self.O4
   end
@@ -148,12 +148,12 @@ warning.
         EOS
       end
 
-    elsif `/usr/bin/which gfortran`.chomp.size > 0
+    elsif `#{OS.which} gfortran`.chomp.size > 0
       ohai <<-EOS
 Using Homebrew-provided fortran compiler.
     This may be changed by setting the FC environment variable.
       EOS
-      self['FC'] = `/usr/bin/which gfortran`.chomp
+      self['FC'] = `#{OS.which} gfortran`.chomp
       self['F77'] = self['FC']
 
       self['FCFLAGS'] = self['CFLAGS']
@@ -201,7 +201,7 @@ Please take one of the following actions:
   end
 
   def x11
-    opoo "You do not have X11 installed, this formula may not build." if not MacOS.x11_installed?
+    opoo "You do not have X11 installed, this formula may not build." if not OS.x11_installed?
 
     # There are some config scripts (e.g. freetype) here that should go in the path
     prepend 'PATH', '/usr/X11/bin', ':'

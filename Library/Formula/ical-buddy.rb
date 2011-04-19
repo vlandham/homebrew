@@ -5,7 +5,7 @@ class IcalBuddy < Formula
   head "http://hasseg.org/git-public/icalBuddy.git", :using => :git
 
   def install
-    arch = MacOS.prefer_64_bit? ? "x86_64" : "i386"
+    arch = OS.prefer_64_bit? ? "x86_64" : "i386"
 
     inreplace "Makefile", "-arch i386 -arch x86_64 -arch ppc", "-arch #{arch}"
     system "make icalBuddy icalBuddy.1 icalBuddyLocalization.1 icalBuddyConfig.1"

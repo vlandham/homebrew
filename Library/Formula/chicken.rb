@@ -9,7 +9,7 @@ class Chicken < Formula
   def install
     ENV.deparallelize
     args = ["PREFIX=#{prefix}", "PLATFORM=macosx"]
-    args << "ARCH=x86-64" if MacOS.prefer_64_bit?
+    args << "ARCH=x86-64" if OS.prefer_64_bit?
     system "make", *args
     system "make", "install", *args
   end

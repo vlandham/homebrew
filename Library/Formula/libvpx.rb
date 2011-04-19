@@ -10,7 +10,7 @@ class Libvpx < Formula
   def install
     args = ["--prefix=#{prefix}"]
     # Configure detects 32-bit CPUs incorrectly.
-    args << "--target=generic-gnu" unless MacOS.prefer_64_bit?
+    args << "--target=generic-gnu" unless OS.prefer_64_bit?
 
     system "./configure", *args
     system "make install"

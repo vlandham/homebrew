@@ -18,7 +18,7 @@ class Xchat < Formula
             "--disable-plugin"]
 
     # Fails on 32-bit core solo without this
-    args << "--disable-mmx" unless MacOS.prefer_64_bit?
+    args << "--disable-mmx" unless OS.prefer_64_bit?
 
     system "./configure", *args
     system "make install"

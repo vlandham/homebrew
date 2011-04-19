@@ -16,7 +16,7 @@ class PltRacket < Formula
               "--enable-shared",
               "--prefix=#{prefix}" ]
 
-      if MacOS.prefer_64_bit?
+      if OS.prefer_64_bit?
         args += ["--enable-mac64", "--enable-sgc", "--disable-gracket"]
       end
 

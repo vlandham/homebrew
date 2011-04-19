@@ -8,8 +8,8 @@ class Jags < Formula
   def install
     ENV.fortran
 
-    arch = MacOS.prefer_64_bit? ?  '-arch x86_64' : '-arch i386'
-    compile_flags = "-mmacosx-version-min=10.5 -isysroot #{MacOS.xcode_prefix}/SDKs/MacOSX10.5.sdk #{arch}"
+    arch = OS.prefer_64_bit? ?  '-arch x86_64' : '-arch i386'
+    compile_flags = "-mmacosx-version-min=10.5 -isysroot #{OS.xcode_prefix}/SDKs/OSX10.5.sdk #{arch}"
     ENV['CFLAGS'] = compile_flags
     ENV['CXXFLAGS'] = compile_flags
     ENV['FFLAGS'] = compile_flags

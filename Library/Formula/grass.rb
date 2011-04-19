@@ -21,7 +21,7 @@ class Grass < Formula
   depends_on "unixodbc"
   depends_on "fftw"
 
-  depends_on "cairo" if MacOS.leopard?
+  depends_on "cairo" if OS.leopard?
 
   def patches
     DATA
@@ -68,7 +68,7 @@ class Grass < Formula
       "--without-tcltk" # Disabled due to compatibility issues with OS X Tcl/Tk
     ]
 
-    if MacOS.prefer_64_bit?
+    if OS.prefer_64_bit?
       args << "--enable-64bit"
       args << "--with-macosx-archs=x86_64"
     else
@@ -76,7 +76,7 @@ class Grass < Formula
     end
 
     # Deal with Cairo support
-    if MacOS.leopard?
+    if OS.leopard?
       cairo = Formula.factory('cairo')
       args << "--with-cairo-includes=#{cairo.include}/cairo"
       args << "--with-cairo-libs=#{cairo.lib}"

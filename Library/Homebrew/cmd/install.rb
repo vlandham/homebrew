@@ -27,10 +27,10 @@ module Homebrew extend self
   end
 
   def check_cc
-    if MACOS_VERSION >= 10.6
-      opoo "You should upgrade to Xcode 3.2.3" if MacOS.llvm_build_version < RECOMMENDED_LLVM
+    if OS.version >= 10.6
+      opoo "You should upgrade to Xcode 3.2.3" if OS.llvm_build_version < RECOMMENDED_LLVM
     else
-      opoo "You should upgrade to Xcode 3.1.4" if (MacOS.gcc_40_build_version < RECOMMENDED_GCC_40) or (MacOS.gcc_42_build_version < RECOMMENDED_GCC_42)
+      opoo "You should upgrade to Xcode 3.1.4" if (OS.gcc_40_build_version < RECOMMENDED_GCC_40) or (OS.gcc_42_build_version < RECOMMENDED_GCC_42)
     end
   rescue
     # the reason we don't abort is some formula don't require Xcode
@@ -39,7 +39,7 @@ module Homebrew extend self
   end
 
   def check_macports
-    if MacOS.macports_or_fink_installed?
+    if OS.macports_or_fink_installed?
       opoo "It appears you have Macports or Fink installed"
       puts "Software installed with other package managers causes known problems for"
       puts "Homebrew. If formula fail to build uninstall Macports/Fink and reinstall any"

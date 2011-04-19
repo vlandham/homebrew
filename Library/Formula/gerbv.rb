@@ -7,7 +7,7 @@ class Gerbv < Formula
 
   depends_on 'pkg-config' => :build
   depends_on 'gtk+'
-  depends_on 'cairo' if MacOS.leopard?
+  depends_on 'cairo' if OS.leopard?
 
   def install
     system "./configure", "--disable-debug", "--disable-dependency-tracking",

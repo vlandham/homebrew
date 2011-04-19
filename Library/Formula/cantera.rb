@@ -16,7 +16,7 @@ class Cantera < Formula
 
   def install
 
-    if MacOS.prefer_64_bit?
+    if OS.prefer_64_bit?
       # There is probably a better way to do this, but this seems to work for my purposes:
       ENV['CFLAGS'] += " -arch x86_64"
       ENV['CXX_OPT'] = "-arch x86_64"

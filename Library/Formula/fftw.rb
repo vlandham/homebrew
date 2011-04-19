@@ -13,7 +13,7 @@ class Fftw < Formula
             "--disable-dependency-tracking"]
 
     # check for gfortran
-    args << "--disable-fortran" if `/usr/bin/which gfortran`.chomp.empty?
+    args << "--disable-fortran" if `#{OS.which} gfortran`.chomp.empty?
 
     # single precision
     # enable-sse only works with single

@@ -26,8 +26,8 @@ class Rrdtool < Formula
     ENV.libxml2
     ENV.x11
 
-    which_perl = `/usr/bin/which perl`.chomp
-    which_ruby = `/usr/bin/which ruby`.chomp
+    which_perl = `#{OS.which} perl`.chomp
+    which_ruby = `#{OS.which} ruby`.chomp
 
     opoo "Using system Ruby. RRD module will be installed to /Library/Ruby/..." if which_ruby == "/usr/bin/ruby"
     opoo "Using system Perl. RRD module will be installed to /Library/Perl/..." if which_perl == "/usr/bin/perl"
@@ -39,7 +39,7 @@ class Rrdtool < Formula
     system "./configure", *args
 
     # Needed to build proper Ruby bundle
-    ENV["ARCHFLAGS"] = MacOS.prefer_64_bit? ? "-arch x86_64" : "-arch i386"
+    ENV["ARCHFLAGS"] = OS.prefer_64_bit? ? "-arch x86_64" : "-arch i386"
 
     system "make install"
     prefix.install "bindings/ruby/test.rb"

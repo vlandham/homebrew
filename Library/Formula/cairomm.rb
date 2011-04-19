@@ -14,7 +14,7 @@ class Cairomm < Formula
   depends_on 'pkg-config' => :build
   depends_on 'libsigc++'
   # cairo is available on 10.6 via X11 but not on 10.5
-  depends_on 'cairo' if MacOS.leopard?
+  depends_on 'cairo' if OS.leopard?
 
   def install
     system "./configure", "--disable-dependency-tracking",

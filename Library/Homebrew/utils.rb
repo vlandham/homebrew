@@ -1,4 +1,6 @@
+require 'version'
 require 'pathname'
+require 'os'
 
 class Tty
   class <<self
@@ -63,6 +65,11 @@ def interactive_shell f=nil
   end
 end
 
+require 'fileutils'
+module Homebrew extend self
+  include FileUtils
+end
+
 module Homebrew
   def self.system cmd, *args
     puts "#{cmd} #{args*' '}" if ARGV.verbose?
@@ -74,6 +81,10 @@ module Homebrew
     end
     Process.wait
     $?.success?
+  end
+  
+  def self.user_agent
+    "Homebrew #{HOMEBREW_VERSION} (Ruby #{RUBY_VERSION}-#{RUBY_PATCHLEVEL}; #{OS.full_name} #{OS.full_version})"
   end
 end
 
@@ -94,7 +105,7 @@ def quiet_system cmd, *args
 end
 
 def curl *args
-  safe_system '/usr/bin/curl', '-f#LA', HOMEBREW_USER_AGENT, *args unless args.empty?
+  safe_system '/usr/bin/curl', '-f#LA', Homebrew.user_agent, *args unless args.empty?
 end
 
 def puts_columns items, star_items=[]
@@ -123,9 +134,9 @@ def exec_editor *args
 
   editor = ENV['HOMEBREW_EDITOR'] || ENV['EDITOR']
   if editor.nil?
-    editor = if system "/usr/bin/which -s mate"
+    editor = if system "#{OS.which_s} mate"
       'mate'
-    elsif system "/usr/bin/which -s edit"
+    elsif system "#{OS.which_s} edit"
       'edit' # BBEdit / TextWrangler
     else
       '/usr/bin/vim' # Default to vim
@@ -164,7 +175,7 @@ end
 # Returns array of architectures that the given command or library is built for.
 def archs_for_command cmd
   cmd = cmd.to_s # If we were passed a Pathname, turn it into a string.
-  cmd = `/usr/bin/which #{cmd}` unless Pathname.new(cmd).absolute?
+  cmd = `#{OS.which} #{cmd}` unless Pathname.new(cmd).absolute?
   cmd.gsub! ' ', '\\ '  # Escape spaces in the filename.
 
   lines = `/usr/bin/file -L #{cmd}`
@@ -221,112 +232,6 @@ def nostdout
     ensure
       $stdout = real_stdout
     end
-  end
-end
-
-module MacOS extend self
-
-  def default_cc
-    Pathname.new("/usr/bin/cc").realpath.basename.to_s
-  end
-
-  def gcc_42_build_version
-    `/usr/bin/gcc-4.2 -v 2>&1` =~ /build (\d{4,})/
-    if $1
-      $1.to_i
-    elsif system "/usr/bin/which gcc"
-      # Xcode 3.0 didn't come with gcc-4.2
-      # We can't change the above regex to use gcc because the version numbers
-      # are different and thus, not useful.
-      # FIXME I bet you 20 quid this causes a side effect — magic values tend to
-      401
-    else
-      nil
-    end
-  end
-
-  def gcc_40_build_version
-    `/usr/bin/gcc-4.0 -v 2>&1` =~ /build (\d{4,})/
-    if $1
-      $1.to_i
-    else
-      nil
-    end
-  end
-
-  # usually /Developer
-  def xcode_prefix
-    @xcode_prefix ||= begin
-      path = `/usr/bin/xcode-select -print-path 2>&1`.chomp
-      path = Pathname.new path
-      if path.directory? and path.absolute?
-        path
-      elsif File.directory? '/Developer'
-        # we do this to support cowboys who insist on installing
-        # only a subset of Xcode
-        '/Developer'
-      else
-        nil
-      end
-    end
-  end
-
-  def llvm_build_version
-    unless xcode_prefix.to_s.empty?
-      llvm_gcc_path = xcode_prefix/"usr/bin/llvm-gcc"
-      # for Xcode 3 on OS X 10.5 this will not exist
-      if llvm_gcc_path.file?
-        `#{llvm_gcc_path} -v 2>&1` =~ /LLVM build (\d{4,})/
-        $1.to_i # if nil this raises and then you fix the regex
-      end
-    end
-  end
-
-  def x11_installed?
-    Pathname.new('/usr/X11/lib/libpng.dylib').exist?
-  end
-
-  def macports_or_fink_installed?
-    # See these issues for some history:
-    # http://github.com/mxcl/homebrew/issues/#issue/13
-    # http://github.com/mxcl/homebrew/issues/#issue/41
-    # http://github.com/mxcl/homebrew/issues/#issue/48
-
-    %w[port fink].each do |ponk|
-      path = `/usr/bin/which -s #{ponk}`
-      return ponk unless path.empty?
-    end
-
-    # we do the above check because macports can be relocated and fink may be
-    # able to be relocated in the future. This following check is because if
-    # fink and macports are not in the PATH but are still installed it can
-    # *still* break the build -- because some build scripts hardcode these paths:
-    %w[/sw/bin/fink /opt/local/bin/port].each do |ponk|
-      return ponk if File.exist? ponk
-    end
-
-    # finally, sometimes people make their MacPorts or Fink read-only so they
-    # can quickly test Homebrew out, but still in theory obey the README's
-    # advise to rename the root directory. This doesn't work, many build scripts
-    # error out when they try to read from these now unreadable directories.
-    %w[/sw /opt/local].each do |path|
-      path = Pathname.new(path)
-      return path if path.exist? and not path.readable?
-    end
-
-    false
-  end
-
-  def leopard?
-    10.5 == MACOS_VERSION
-  end
-
-  def snow_leopard?
-    10.6 <= MACOS_VERSION # Actually Snow Leopard or newer
-  end
-
-  def prefer_64_bit?
-    Hardware.is_64_bit? and 10.6 <= MACOS_VERSION
   end
 end
 

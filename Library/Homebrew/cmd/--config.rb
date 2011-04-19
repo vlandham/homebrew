@@ -6,15 +6,15 @@ module Homebrew extend self
   end
 
   def llvm
-    @llvm ||= MacOS.llvm_build_version
+    @llvm ||= OS.llvm_build_version
   end
 
   def gcc_42
-    @gcc_42 ||= MacOS.gcc_42_build_version
+    @gcc_42 ||= OS.gcc_42_build_version
   end
 
   def gcc_40
-    @gcc_40 ||= MacOS.gcc_40_build_version
+    @gcc_40 ||= OS.gcc_40_build_version
   end
 
   def xcode_version
@@ -51,7 +51,7 @@ module Homebrew extend self
     HOMEBREW_REPOSITORY: #{HOMEBREW_REPOSITORY}
     HOMEBREW_LIBRARY_PATH: #{HOMEBREW_LIBRARY_PATH}
     Hardware: #{Hardware.cores_as_words}-core #{Hardware.bits}-bit #{Hardware.intel_family}
-    OS X: #{MACOS_FULL_VERSION}
+    OS X: #{OS.full_version}
     Kernel Architecture: #{`uname -m`.chomp}
     Ruby: #{RUBY_VERSION}-#{RUBY_PATCHLEVEL}
     /usr/bin/ruby => #{system_ruby}

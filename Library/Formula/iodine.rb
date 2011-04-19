@@ -6,7 +6,7 @@ class Iodine < Formula
   md5 'a15bb4faba020d217016fde6e231074a'
 
   def install
-    unless MacOS.leopard?
+    unless OS.leopard?
       inreplace ["src/common.c", "src/dns.c", "src/iodine.c", "src/iodined.c"],
         "arpa/nameser8_compat", "arpa/nameser_compat"
     end

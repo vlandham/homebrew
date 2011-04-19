@@ -18,7 +18,7 @@ class Pianobar < Formula
     ENV.delete 'CFLAGS' # Pianobar uses c99 instead of gcc; remove our gcc flags.
 
     # Enable 64-bit builds if needed
-    w_flag = MacOS.prefer_64_bit? ? "-W64" : ""
+    w_flag = OS.prefer_64_bit? ? "-W64" : ""
     inreplace "Makefile" do |s|
       s.gsub! "CFLAGS:=-O2 -DNDEBUG", "CFLAGS:=-O2 -DNDEBUG #{w_flag}"
     end

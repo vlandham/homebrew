@@ -40,13 +40,13 @@ class Ffmpeg < Formula
 
     # For 32-bit compilation under gcc 4.2, see:
     # http://trac.macports.org/ticket/20938#comment:22
-    if MacOS.snow_leopard? and Hardware.is_32_bit?
+    if OS.snow_leopard? and Hardware.is_32_bit?
       ENV.append_to_cflags "-mdynamic-no-pic"
     end
 
     system "./configure", *args
 
-    if MacOS.prefer_64_bit?
+    if OS.prefer_64_bit?
       inreplace 'config.mak' do |s|
         shflags = s.get_make_var 'SHFLAGS'
         if shflags.gsub!(' -Wl,-read_only_relocs,suppress', '')

@@ -6,7 +6,7 @@ class PgpoolIi < Formula
   md5 '86d8beff0396d11b6753dd2be31bcad7'
 
   def install
-     if `/usr/bin/which pg_config`.chomp.empty?
+     if `#{OS.which} pg_config`.chomp.empty?
       opoo "No PostgreSQL was detected."
       puts <<-EOS.undent
         This formula uses `pg_config` to detect an installed PostgreSQL instead

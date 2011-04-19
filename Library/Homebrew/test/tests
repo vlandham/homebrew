@@ -7,6 +7,7 @@
 /usr/bin/ruby test_checksums.rb $*
 /usr/bin/ruby test_inreplace.rb $*
 /usr/bin/ruby test_hardware.rb $*
+/usr/bin/ruby test_os.rb $*
 /usr/bin/ruby test_formula_install.rb $*
 /usr/bin/ruby test_patching.rb $*
 /usr/bin/ruby test_external_deps.rb $*
@@ -14,5 +15,5 @@
 /usr/bin/ruby test_utils.rb $*
 /usr/bin/ruby test_ARGV.rb $*
 /usr/bin/ruby test_ENV.rb $*
-/usr/bin/ruby test_updater.rb $*
+#/usr/bin/ruby test_updater.rb $*
 /usr/bin/ruby test_string.rb $*

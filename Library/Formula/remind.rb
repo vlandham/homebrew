@@ -7,7 +7,7 @@ class Remind < Formula
   md5 'f6f7829d3ac92e0d6d463c59b5e6ce3f'
 
 # roaringpenguin.com returns a 403 when the user agent contains Mac OS X :(
-  HOMEBREW_USER_AGENT.delete!("; Mac OS X #{MACOS_FULL_VERSION}")
+  Homebrew.user_agent.delete!("; Mac OS X #{OS.full_version}")
 
   def install
     # Remove unnecessary sleeps when running on Apple

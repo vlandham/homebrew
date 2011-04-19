@@ -15,7 +15,7 @@ class Icu4c < Formula
   def install
     ENV.append "LDFLAGS", "-headerpad_max_install_names"
     config_flags = ["--prefix=#{prefix}", "--disable-samples", "--enable-static"]
-    config_flags << "--with-library-bits=64" if MacOS.prefer_64_bit?
+    config_flags << "--with-library-bits=64" if OS.prefer_64_bit?
     Dir.chdir "source" do
       system "./configure", *config_flags
       system "make"

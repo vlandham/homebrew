@@ -11,6 +11,6 @@ class Phantomjs < Formula
   def install
     system "qmake -spec macx-g++"
     system "make"
-    bin.install "bin/phantomjs.app/Contents/MacOS/phantomjs"
+    bin.install "bin/phantomjs.app/Contents/OS/phantomjs"
   end
 end

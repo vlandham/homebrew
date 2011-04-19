@@ -13,10 +13,10 @@ class Recode < Formula
   end
 
   def install
-    if MacOS.leopard?
-      cp Dir["#{MacOS.xcode_prefix}/usr/share/libtool/config.*"], "."
+    if OS.leopard?
+      cp Dir["#{OS.xcode_prefix}/usr/share/libtool/config.*"], "."
     else
-      cp Dir["#{MacOS.xcode_prefix}/usr/share/libtool/config/config.*"], "."
+      cp Dir["#{OS.xcode_prefix}/usr/share/libtool/config/config.*"], "."
     end
 
     system "./configure", "--disable-debug", "--disable-dependency-tracking",

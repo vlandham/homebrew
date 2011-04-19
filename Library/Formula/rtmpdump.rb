@@ -5,7 +5,7 @@ class Rtmpdump < Formula
   homepage 'http://rtmpdump.mplayerhq.hu'
   md5 'eb961f31cd55f0acf5aad1a7b900ef59'
 
-  depends_on 'openssl' if MacOS.leopard?
+  depends_on 'openssl' if OS.leopard?
 
   # Use dylib instead of so
   def patches; DATA; end

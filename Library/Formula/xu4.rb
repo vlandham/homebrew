@@ -31,7 +31,7 @@ class Xu4 < Formula
 
       inreplace "Makefile.macosx" do |s|
         s.remove_make_var! "WHICH_ARCH"
-        s.change_make_var! "WHICH_FRAMEWORK", "MacOSX#{MACOS_VERSION}.sdk"
+        s.change_make_var! "WHICH_FRAMEWORK", "OSX#{OS.version}.sdk"
         s.change_make_var! "BUNDLE_CONTENTS", "xu4.app/Contents"
         s.gsub! "../../ultima4.zip", "../ultima4-1.01.zip"
         s.gsub! "../../u4upgrad.zip", "../u4upgrad.zip"
@@ -60,7 +60,7 @@ index 9745ff4..88cb193 100644
  #
  
 +WHICH_ARCH=-arch i386 -arch ppc
-+WHICH_FRAMEWORK=MacOSX10.4u.sdk
++WHICH_FRAMEWORK=OSX10.4u.sdk
 +
  BUNDLE_CONTENTS=../../xu4.app/Contents
  
@@ -86,7 +86,7 @@ index 9745ff4..88cb193 100644
  # Optimising
  #DEBUGCXXFLAGS=-O2 -mdynamic-no-pic
  
--CXXFLAGS=$(FEATURES) -Wall -I. $(UIFLAGS) $(shell xml2-config --cflags) -DVERSION=\"$(VERSION)\" $(DEBUGCXXFLAGS) -DNPERF -DMACOSX -DMACOSX_USER_FILES_PATH=\"/Library/Application\ Support/xu4\" -no-cpp-precomp -L$(LIBPNGDIR) -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc
+-CXXFLAGS=$(FEATURES) -Wall -I. $(UIFLAGS) $(shell xml2-config --cflags) -DVERSION=\"$(VERSION)\" $(DEBUGCXXFLAGS) -DNPERF -DMACOSX -DMACOSX_USER_FILES_PATH=\"/Library/Application\ Support/xu4\" -no-cpp-precomp -L$(LIBPNGDIR) -isysroot /Developer/SDKs/OSX10.4u.sdk -arch i386 -arch ppc
 +CXXFLAGS=$(FEATURES) -Wall -I. $(UIFLAGS) $(shell xml2-config --cflags) -DVERSION=\"$(VERSION)\" $(DEBUGCXXFLAGS) -DNPERF -DMACOSX -DMACOSX_USER_FILES_PATH=\"/Library/Application\ Support/xu4\" -no-cpp-precomp -L$(LIBPNGDIR) -isysroot /Developer/SDKs/$(WHICH_FRAMEWORK) $(WHICH_ARCH)
  CFLAGS=$(CXXFLAGS)
 -LIBS=$(LIBPNGDIR)/libpng.a $(UILIBS) $(shell xml2-config --libs) -lobjc -lz -arch i386 -arch ppc

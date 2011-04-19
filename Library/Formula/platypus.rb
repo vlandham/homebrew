@@ -25,7 +25,7 @@ class Platypus < Formula
     end
     # Install sub-binary parts to share
     Dir.chdir('build/Deployment/ScriptExec.app/Contents') do
-      (share + 'platypus').install "MacOS/ScriptExec"
+      (share + 'platypus').install "OS/ScriptExec"
       (share + 'platypus/MainMenu.nib').install "Resources/English.lproj/MainMenu.nib/keyedobjects.nib"
     end
 

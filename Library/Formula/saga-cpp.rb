@@ -13,7 +13,7 @@ class SagaCpp < Formula
   def install
     # Don't depend on a Homebrew-built PostgreSQL; users can
     # install the database however they like.
-    unless `/usr/bin/which pg_config`.size > 0
+    unless `#{OS.which} pg_config`.size > 0
       opoo "PostgreSQL not found"
       puts caveats
     end

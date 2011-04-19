@@ -11,7 +11,7 @@ class Libnet < Formula
     inreplace "autogen.sh", "libtoolize", "glibtoolize"
     system "./autogen.sh"
 
-    unless MacOS.leopard?
+    unless OS.leopard?
       cp "/usr/share/libtool/config/config.guess", "."
       cp "/usr/share/libtool/config/config.sub", "."
     end

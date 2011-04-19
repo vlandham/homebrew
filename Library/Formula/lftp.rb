@@ -11,7 +11,7 @@ class Lftp < Formula
 
   def install
     # Bus error
-    ENV.no_optimization if MacOS.leopard?
+    ENV.no_optimization if OS.leopard?
 
     system "./configure", "--prefix=#{prefix}", "--disable-dependency-tracking"
     system "make install"

@@ -16,7 +16,7 @@ class ModWsgi < Formula
       #{libexec}/mod_wsgi.so
 
     * On 10.5, you must run Apache in 32-bit mode:
-      http://code.google.com/p/modwsgi/wiki/InstallationOnMacOSX
+      http://code.google.com/p/modwsgi/wiki/InstallationOnOSX
     EOS
   end
 

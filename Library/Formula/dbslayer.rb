@@ -7,7 +7,7 @@ class Dbslayer < Formula
   version '0.12.b'
 
   def install
-    unless `/usr/bin/which mysql_config`.size > 0
+    unless `#{OS.which} mysql_config`.size > 0
       opoo "No MySQL client library detected"
       puts "This formula may fail to build, see caveats for more information."
     end

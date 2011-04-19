@@ -15,7 +15,7 @@ class Collectd < Formula
             "--with-python=/usr/bin",
             "--prefix=#{prefix}",
             "--localstatedir=#{var}"]
-    args << "--disable-embedded-perl" if MacOS.leopard?
+    args << "--disable-embedded-perl" if OS.leopard?
 
     system "./configure", *args
     system "make install"

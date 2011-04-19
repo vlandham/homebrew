@@ -16,7 +16,7 @@ class Valgrind < Formula
     system "./autogen.sh" if File.exists? "autogen.sh"
 
     args = ["--prefix=#{prefix}", "--mandir=#{man}"]
-    args << "--enable-only64bit" << "--build=amd64-darwin" if MacOS.prefer_64_bit?
+    args << "--enable-only64bit" << "--build=amd64-darwin" if OS.prefer_64_bit?
 
     system "./configure", *args
     system "make install"

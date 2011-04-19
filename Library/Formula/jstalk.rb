@@ -6,7 +6,7 @@ class Jstalk < Formula
   version '1.0.1'
 
   def install
-    if MacOS.leopard?
+    if OS.leopard?
       onoe "jstalk requires Mac OS X 10.6+"
       exit 1
     end

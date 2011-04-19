@@ -16,7 +16,7 @@ class Wkhtmltopdf < Formula
 
     # Always creates a uselles .app doh,
     # AFAIK this is fixed in 0.10.0beta
-    wkhtml_bin = 'wkhtmltopdf.app/Contents/MacOS/wkhtmltopdf'
+    wkhtml_bin = 'wkhtmltopdf.app/Contents/OS/wkhtmltopdf'
     wkhtml_man = "#{name}.1"
 
     system "qmake"

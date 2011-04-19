@@ -13,7 +13,7 @@ class Gle < Formula
   def install
     ENV.x11
 
-    arch = MacOS.prefer_64_bit? ? "x86_64" : "i386"
+    arch = OS.prefer_64_bit? ? "x86_64" : "i386"
     system "./configure", "--prefix=#{prefix}",
                           "--with-arch=#{arch}",
                           "--without-qt"

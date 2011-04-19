@@ -1,13 +1,11 @@
 require 'extend/pathname'
 require 'extend/ARGV'
 require 'extend/string'
-require 'utils'
 require 'exceptions'
 require 'compatibility'
 
 ARGV.extend(HomebrewArgvExtension)
 
-HOMEBREW_VERSION = '0.8'
 HOMEBREW_WWW = 'http://mxcl.github.com/homebrew/'
 
 HOMEBREW_CACHE = if Process.uid == 0
@@ -33,20 +31,9 @@ else
   HOMEBREW_REPOSITORY+"Cellar"
 end
 
-MACOS_FULL_VERSION = `/usr/bin/sw_vers -productVersion`.chomp
-MACOS_VERSION = /(10\.\d+)(\.\d+)?/.match(MACOS_FULL_VERSION).captures.first.to_f
-
-HOMEBREW_USER_AGENT = "Homebrew #{HOMEBREW_VERSION} (Ruby #{RUBY_VERSION}-#{RUBY_PATCHLEVEL}; Mac OS X #{MACOS_FULL_VERSION})"
-
-
 RECOMMENDED_LLVM = 2326
-RECOMMENDED_GCC_40 = (MACOS_VERSION >= 10.6) ? 5494 : 5493
-RECOMMENDED_GCC_42 = (MACOS_VERSION >= 10.6) ? 5664 : 5577
-
-require 'fileutils'
-module Homebrew extend self
-  include FileUtils
-end
+RECOMMENDED_GCC_40 = (OS.version >= 10.6) ? 5494 : 5493
+RECOMMENDED_GCC_42 = (OS.version >= 10.6) ? 5664 : 5577
 
 FORMULA_META_FILES = %w[README README.md ChangeLog COPYING LICENSE LICENCE COPYRIGHT AUTHORS]
 PLEASE_REPORT_BUG = "#{Tty.white}Please report this bug: #{Tty.em}https://github.com/mxcl/homebrew/wiki/new-issue#{Tty.reset}"

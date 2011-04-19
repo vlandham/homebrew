@@ -91,7 +91,7 @@ index cfb4b78..cc8410d 100644
  
  ### Key: GSCall
  ## command line for calling GhostScript (!!! DO NOT USE NEWLINES !!!)
- ## MacOSX: for using pstopdf set this to %s %s -o %s %s
+ ## OSX: for using pstopdf set this to %s %s -o %s %s
  ### Default: %s -q -dCompatibilityLevel=%s -dNOPAUSE -dBATCH -dSAFER -sDEVICE=pdfwrite -sOutputFile="%s" -dAutoRotatePages=/PageByPage -dAutoFilterColorImages=false -dColorImageFilter=/FlateEncode -dPDFSETTINGS=/prepress -c .setpdfwrite -f %s
  
 -#GSCall %s -q -dCompatibilityLevel=%s -dNOPAUSE -dBATCH -dSAFER -sDEVICE=pdfwrite -sOutputFile="%s" -dAutoRotatePages=/PageByPage -dAutoFilterColorImages=false -dColorImageFilter=/FlateEncode -dPDFSETTINGS=/prepress -c .setpdfwrite -f %s
@@ -99,7 +99,7 @@ index cfb4b78..cc8410d 100644
  
  ### Key: PDFVer
  ##  PDF version to be created - can be "1.5", "1.4", "1.3" or "1.2" 
- ##  MacOSX: for using pstopdf set this to an empty value
+ ##  OSX: for using pstopdf set this to an empty value
  ### Default: 1.4
  
 -#PDFVer 1.4

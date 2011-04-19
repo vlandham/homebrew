@@ -6,7 +6,7 @@ class Nmap < Formula
   md5 '0b80d2cb92ace5ebba8095a4c2850275'
 
   # namp needs newer version of openssl on Leopard
-  depends_on "openssl" if MacOS.leopard?
+  depends_on "openssl" if OS.leopard?
 
   fails_with_llvm
 
@@ -15,7 +15,7 @@ class Nmap < Formula
 
     args = ["--prefix=#{prefix}", "--without-zenmap"]
 
-    if MacOS.leopard?
+    if OS.leopard?
       openssl = Formula.factory('openssl')
       args << "--with-openssl=#{openssl.prefix}"
     end

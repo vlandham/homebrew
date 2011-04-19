@@ -23,7 +23,7 @@ __END__
 --- a/configure
 +++ b/configure
 @@ -21504,7 +21504,7 @@ Please re-run configure with these options:
-     CXXFLAGS="$CXXFLAGS -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -arch i386"
+     CXXFLAGS="$CXXFLAGS -isysroot /Developer/SDKs/OSX10.4u.sdk -arch ppc -arch i386"
        fi
  
 -  CXXFLAGS="$CXXFLAGS -Wno-long-double"

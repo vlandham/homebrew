@@ -9,7 +9,7 @@ class Dotless < Formula
   version "1.1.0.3"
 
   def install
-    mono_path = `/usr/bin/which mono`.strip
+    mono_path = `#{OS.which} mono`.strip
     if mono_path.size == 0
       opoo "mono not found in path"
       puts "You need to install Mono to run this software:"

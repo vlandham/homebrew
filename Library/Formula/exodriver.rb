@@ -15,7 +15,7 @@ class Exodriver < Formula
 
   def install
     cd 'liblabjackusb'
-    mv 'Makefile.MacOSX', 'Makefile'
+    mv 'Makefile.OSX', 'Makefile'
 
     inreplace 'Makefile' do |s|
       s.change_make_var! 'DESTINATION', lib

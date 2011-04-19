@@ -78,8 +78,8 @@ class Emacs < Formula
       prefix.install "nextstep/Emacs.app"
 
       bin.mkpath
-      ln_s prefix+'Emacs.app/Contents/MacOS/Emacs', bin+'emacs'
-      ln_s prefix+'Emacs.app/Contents/MacOS/bin/emacsclient', bin
+      ln_s prefix+'Emacs.app/Contents/OS/Emacs', bin+'emacs'
+      ln_s prefix+'Emacs.app/Contents/OS/bin/emacsclient', bin
     else
       if ARGV.include? "--with-x"
         args << "--with-x"

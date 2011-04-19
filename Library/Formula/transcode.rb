@@ -35,7 +35,7 @@ class Transcode < Formula
             "--enable-sdl",
             "--without-x"]
 
-    args << "--build=x86_64-apple-darwin10.0.0" if MacOS.prefer_64_bit?
+    args << "--build=x86_64-apple-darwin10.0.0" if OS.prefer_64_bit?
 
     system './configure', *args
     system "make install"

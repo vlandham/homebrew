@@ -17,7 +17,7 @@ class Mpg123 < Formula
             "--with-audio=coreaudio",
             "--with-default-audio=coreaudio"]
 
-    if MacOS.prefer_64_bit?
+    if OS.prefer_64_bit?
       args << "--with-cpu=x86-64"
     else
       args << "--with-cpu=sse_alone"
@@ -28,7 +28,7 @@ class Mpg123 < Formula
     # ./configure incorrectly detects 10.5 as 10.4; fix it.
     ['.', 'src', 'src/output', 'src/libmpg123'].each do |path|
       inreplace "#{path}/Makefile" do |s|
-        s.gsub! "-mmacosx-version-min=10.4 -isysroot /Developer/SDKs/MacOSX10.4u.sdk", ""
+        s.gsub! "-mmacosx-version-min=10.4 -isysroot /Developer/SDKs/OSX10.4u.sdk", ""
         s.change_make_var! "LDFLAGS", "-Wl,-read_only_relocs,suppress"
       end
     end

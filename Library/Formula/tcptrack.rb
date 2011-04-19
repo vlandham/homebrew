@@ -6,7 +6,7 @@ class Tcptrack < Formula
   md5 'c177a4f170eefb2c3719965694496228'
 
   def install
-    # Fix IPv6 on MacOS. The patch was sent by email to the maintainer
+    # Fix IPv6 on OS. The patch was sent by email to the maintainer
     # (tcptrack2@s.rhythm.cx) on 2010-11-24 for inclusion.
     inreplace 'src/IPv6Address.cc', 's6_addr16', '__u6_addr.__u6_addr16'
 

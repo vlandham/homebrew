@@ -7,7 +7,7 @@ class Rogue < Formula
   sha1 'aef9e589c4f31eb6d3eeb9d543ab8787b00fb022'
 
   def install
-    ENV.ncurses_define if MacOS.snow_leopard?
+    ENV.ncurses_define if OS.snow_leopard?
 
     system "./configure", "--disable-debug", "--disable-dependency-tracking",
                           "--prefix=#{prefix}"

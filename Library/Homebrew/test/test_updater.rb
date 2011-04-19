@@ -24,7 +24,9 @@ class RefreshBrewMock < RefreshBrew
     end
   end
 
-  alias safe_system `
+  def safe_system(cmd)
+    `#{cmd}`
+  end
   
   def expectations_met?
     @expect.keys.sort == @called.sort

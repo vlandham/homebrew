@@ -258,7 +258,7 @@ class GitDownloadStrategy < AbstractDownloadStrategy
   def fetch
     raise "You must install Git:\n\n"+
           "  brew install git\n" \
-          unless system "/usr/bin/which git"
+          unless system "#{OS.which} git"
 
     ohai "Cloning #{@url}"
 
@@ -373,7 +373,7 @@ class MercurialDownloadStrategy < AbstractDownloadStrategy
   def cached_location; @clone; end
 
   def fetch
-    raise "You must `easy_install mercurial'" unless system "/usr/bin/which hg"
+    raise "You must `easy_install mercurial'" unless system "#{OS.which} hg"
 
     ohai "Cloning #{@url}"
 
@@ -415,7 +415,7 @@ class BazaarDownloadStrategy < AbstractDownloadStrategy
 
   def fetch
     raise "You must install bazaar first" \
-          unless system "/usr/bin/which bzr"
+          unless system "#{OS.which} bzr"
 
     ohai "Cloning #{@url}"
     unless @clone.exist?
@@ -454,7 +454,7 @@ class FossilDownloadStrategy < AbstractDownloadStrategy
 
   def fetch
     raise "You must install fossil first" \
-          unless system "/usr/bin/which fossil"
+          unless system "#{OS.which} fossil"
 
     ohai "Cloning #{@url}"
     unless @clone.exist?

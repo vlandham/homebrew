@@ -16,29 +16,29 @@ def dump_build_env env
 end
 
 def default_cc
-  MacOS.default_cc
+  OS.default_cc
 end
 
 def gcc_42_build
-  MacOS.gcc_42_build_version
+  OS.gcc_42_build_version
 end
 
 alias :gcc_build :gcc_42_build
 
 def gcc_40_build
-  MacOS.gcc_40_build_version
+  OS.gcc_40_build_version
 end
 
 def llvm_build
-  MacOS.llvm_build_version
+  OS.llvm_build_version
 end
 
 def x11_installed?
-  MacOS.x11_installed?
+  OS.x11_installed?
 end
 
 def macports_or_fink_installed?
-  MacOS.macports_or_fink_installed?
+  OS.macports_or_fink_installed?
 end
 
 def outdated_brews
@@ -52,7 +52,7 @@ def search_brews text
 end
 
 def snow_leopard_64?
-  MacOS.prefer_64_bit?
+  OS.prefer_64_bit?
 end
 
 class Formula
