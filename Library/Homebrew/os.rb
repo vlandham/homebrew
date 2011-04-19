@@ -32,7 +32,7 @@ class OS
     when :mac
       @@provider ||= MacOS.new
     else
-      raise Exception.new 'Unknown platform. Aborting.'
+      raise Exception.new('Unknown platform. Aborting.')
     end
   end
   
@@ -45,7 +45,7 @@ class OS
       %w{/bin /sbin /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin}.each do |p|
         return "#{p}/#{method}" if File.exist?("#{p}/#{method}")
       end
-      raise Exception.new "No system call for #{method} in #{self.platform} OS"
+      raise Exception.new("No system call for #{method} in #{self.platform} OS")
     end
   end
 end

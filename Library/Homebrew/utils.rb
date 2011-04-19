@@ -123,7 +123,7 @@ def puts_columns items, star_items=[]
     optimal_col_width = (console_width.to_f / (longest.length + 2).to_f).floor
     cols = optimal_col_width > 1 ? optimal_col_width : 1
 
-    IO.popen("#{OS.pr}-#{cols} -t -w#{console_width}", "w"){|io| io.puts(items) }
+    IO.popen("#{OS.pr} -#{cols} -t -w#{console_width}", "w"){|io| io.puts(items) }
   else
     puts items
   end

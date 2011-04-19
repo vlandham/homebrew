@@ -71,8 +71,8 @@ class FormulaInstaller
     fork do
       begin
         read.close
-        exec '/usr/bin/nice',
-             '/usr/bin/ruby',
+        exec OS.nice,
+             'ruby',
              '-I', Pathname.new(__FILE__).dirname,
              '-rinstall',
              f.path,

@@ -19,7 +19,7 @@ class BadPerlBall <TestBall
 end
 
 class GoodPerlBall <TestBall
-  depends_on "ENV" => :perl
+  depends_on "DB" => :perl
 
   def initialize name=nil
     super "uses_perl_ball"

@@ -3,17 +3,23 @@ require 'extend/ARGV'
 require 'extend/string'
 require 'exceptions'
 require 'compatibility'
+require 'os'
+require 'utils'
 
 ARGV.extend(HomebrewArgvExtension)
 
-HOMEBREW_WWW = 'http://mxcl.github.com/homebrew/'
+HOMEBREW_WWW = 'http://vlandham.github.com/homebrew/'
 
-HOMEBREW_CACHE = if Process.uid == 0
-  # technically this is not the correct place, this cache is for *all users*
-  # so in that case, maybe we should always use it, root or not?
-  Pathname.new("/Library/Caches/Homebrew")
+if OS.mac?
+  HOMEBREW_CACHE = if Process.uid == 0
+    # technically this is not the correct place, this cache is for *all users*
+    # so in that case, maybe we should always use it, root or not?
+    Pathname.new("/Library/Caches/Homebrew")
+  else
+    Pathname.new("~/Library/Caches/Homebrew").expand_path
+  end
 else
-  Pathname.new("~/Library/Caches/Homebrew").expand_path
+  HOMEBREW_CACHE = Pathname.new("#{ENV['HOME']}/.homebrew/cache")
 end
 
 if not defined? HOMEBREW_BREW_FILE
@@ -32,8 +38,13 @@ else
 end
 
 RECOMMENDED_LLVM = 2326
-RECOMMENDED_GCC_40 = (OS.version >= 10.6) ? 5494 : 5493
-RECOMMENDED_GCC_42 = (OS.version >= 10.6) ? 5664 : 5577
+if OS.mac?
+  RECOMMENDED_GCC_40 = (OS.version >= 10.6) ? 5494 : 5493
+  RECOMMENDED_GCC_42 = (OS.version >= 10.6) ? 5664 : 5577
+else
+  RECOMMENDED_GCC_40 = 4
+  RECOMMENDED_GCC_42 = 4
+end
 
 FORMULA_META_FILES = %w[README README.md ChangeLog COPYING LICENSE LICENCE COPYRIGHT AUTHORS]
 PLEASE_REPORT_BUG = "#{Tty.white}Please report this bug: #{Tty.em}https://github.com/mxcl/homebrew/wiki/new-issue#{Tty.reset}"

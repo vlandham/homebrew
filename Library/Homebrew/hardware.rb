@@ -46,7 +46,11 @@ class Hardware
   end
 
   def self.processor_count
-    @@processor_count ||= `/usr/sbin/sysctl -n hw.ncpu`.to_i
+    if OS.mac?
+      @@processor_count ||= `/usr/sbin/sysctl -n hw.ncpu`.to_i
+    else
+      @@processor_count ||= `cat /proc/cpuinfo | grep processor | wc -l`.to_i
+    end
   end
   
   def self.cores_as_words

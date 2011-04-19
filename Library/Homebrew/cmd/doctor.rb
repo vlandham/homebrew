@@ -444,7 +444,7 @@ def check_for_multiple_volumes
   real_cellar = HOMEBREW_CELLAR.realpath
 
   tmp_prefix = ENV['HOMEBREW_TEMP'] || '/tmp'
-  tmp = Pathname.new `/usr/bin/mktemp -d #{tmp_prefix}/homebrew-brew-doctor-XXXX`.strip
+  tmp = Pathname.new `#{OS.mktemp} -d #{tmp_prefix}/homebrew-brew-doctor-XXXX`.strip
   real_temp = tmp.realpath.parent
 
   where_cellar = volumes.which real_cellar
@@ -484,7 +484,7 @@ end
 
 def check_for_autoconf
   which_autoconf = `#{OS.which} autoconf`.chomp
-  unless (which_autoconf == '/usr/bin/autoconf' or which_autoconf == '/Developer/usr/bin/autoconf')
+  unless (which_autoconf == OS.autoconf or which_autoconf == '/Developer/usr/bin/autoconf')
     puts <<-EOS.undent
       You have an "autoconf" in your path blocking the system version at:
         #{which_autoconf}
