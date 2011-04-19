@@ -27,10 +27,12 @@ module Homebrew extend self
   end
 
   def check_cc
-    if OS.version >= 10.6
-      opoo "You should upgrade to Xcode 3.2.3" if OS.llvm_build_version < RECOMMENDED_LLVM
-    else
-      opoo "You should upgrade to Xcode 3.1.4" if (OS.gcc_40_build_version < RECOMMENDED_GCC_40) or (OS.gcc_42_build_version < RECOMMENDED_GCC_42)
+    if OS.mac?
+      if OS.version >= 10.6
+        opoo "You should upgrade to Xcode 3.2.3" if OS.llvm_build_version < RECOMMENDED_LLVM
+      else
+        opoo "You should upgrade to Xcode 3.1.4" if (OS.gcc_40_build_version < RECOMMENDED_GCC_40) or (OS.gcc_42_build_version < RECOMMENDED_GCC_42)
+      end
     end
   rescue
     # the reason we don't abort is some formula don't require Xcode

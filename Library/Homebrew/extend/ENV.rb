@@ -18,11 +18,15 @@ module HomebrewEnvExtension
       self['CMAKE_PREFIX_PATH'] = "#{HOMEBREW_PREFIX}"
     end
 
-    if OS.version >= 10.6 and (self['HOMEBREW_USE_LLVM'] or ARGV.include? '--use-llvm')
+    if OS.platform == :linux
+      self['CC'] = '/usr/bin/cc'
+      self['CXX'] = '/usr/bin/c++'
+      cflags = ['-O3']
+    elsif OS.platform == :mac and OS.version >= 10.6 and (self['HOMEBREW_USE_LLVM'] or ARGV.include? '--use-llvm')
       self['CC'] = "#{OS.xcode_prefix}/usr/bin/llvm-gcc"
       self['CXX'] = "#{OS.xcode_prefix}/usr/bin/llvm-g++"
       cflags = ['-O4'] # link time optimisation baby!
-    elsif OS.version >= 10.6 and (self['HOMEBREW_USE_GCC'] or ARGV.include? '--use-gcc')
+    elsif OS.platform == :mac and OS.version >= 10.6 and (self['HOMEBREW_USE_GCC'] or ARGV.include? '--use-gcc')
       self['CC'] = "#{OS.xcode_prefix}/usr/bin/gcc"
       self['CXX'] = "#{OS.xcode_prefix}/usr/bin/g++"
       cflags = ['-O3']
@@ -45,7 +49,7 @@ module HomebrewEnvExtension
     # http://gcc.gnu.org/onlinedocs/gcc-4.2.1/gcc/i386-and-x86_002d64-Options.html
     # We don't set, eg. -msse3 because the march flag does that for us:
     # http://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/i386-and-x86_002d64-Options.html
-    if OS.version >= 10.6
+    if OS.mac? and OS.version >= 10.6
       case Hardware.intel_family
       when :nehalem, :penryn, :core2
         # the 64 bit compiler adds -mfpmath=sse for us
@@ -84,21 +88,25 @@ module HomebrewEnvExtension
     remove_from_cflags(/-O./)
     append_to_cflags '-fast'
   end
+  
   def O4
     # LLVM link-time optimization
     remove_from_cflags(/-O./)
     append_to_cflags '-O4'
   end
+  
   def O3
     # Sometimes O4 just takes fucking forever
     remove_from_cflags(/-O./)
     append_to_cflags '-O3'
   end
+  
   def O2
     # Sometimes O3 doesn't work or produces bad binaries
     remove_from_cflags(/-O./)
     append_to_cflags '-O2'
   end
+  
   def Os
     # Sometimes you just want a small one
     remove_from_cflags(/-O./)
@@ -182,6 +190,7 @@ Please take one of the following actions:
     remove_from_cflags(/ ?-mmacosx-version-min=10\.\d/)
     append_to_cflags('-mmacosx-version-min=10.4')
   end
+  
   def osx_10_5
     self['MACOSX_DEPLOYMENT_TARGET']="10.5"
     remove_from_cflags(/ ?-mmacosx-version-min=10\.\d/)
@@ -191,6 +200,7 @@ Please take one of the following actions:
   def minimal_optimization
     self['CFLAGS'] = self['CXXFLAGS'] = "-Os #{SAFE_CFLAGS_FLAGS}"
   end
+  
   def no_optimization
     self['CFLAGS'] = self['CXXFLAGS'] = SAFE_CFLAGS_FLAGS
   end
@@ -242,12 +252,14 @@ Please take one of the following actions:
 
   # i386 and x86_64 only, no PPC
   def universal_binary
-    append_to_cflags '-arch i386 -arch x86_64'
-    self.O3 if self['CFLAGS'].include? '-O4' # O4 seems to cause the build to fail
-    append 'LDFLAGS', '-arch i386 -arch x86_64'
+    if OS.mac?
+      append_to_cflags '-arch i386 -arch x86_64'
+      self.O3 if self['CFLAGS'].include? '-O4' # O4 seems to cause the build to fail
+      append 'LDFLAGS', '-arch i386 -arch x86_64'
 
-    # Can't mix "-march" for a 32-bit CPU  with "-arch x86_64"
-    remove_from_cflags(/-march=\S*/) if Hardware.is_32_bit?
+      # Can't mix "-march" for a 32-bit CPU  with "-arch x86_64"
+      remove_from_cflags(/-march=\S*/) if Hardware.is_32_bit?
+    end
   end
 
   def prepend key, value, separator = ' '

@@ -1,3 +1,5 @@
+require 'os'
+
 class Cleaner
   def initialize f
     @f = Formula.factory f
@@ -11,13 +13,18 @@ class Cleaner
     # f.skip_clean? We want post-order traversal, so put the dirs in a stack
     # and then pop them off later.
     paths = []
-    f.prefix.find do |path|
-      paths << path if path.directory?
+    begin
+      f.prefix.find do |path|
+        paths << path if path.directory?
+      end
+    rescue Errno::ENOENT
     end
+    
+    puts "PREFIX: #{f.prefix} #{f.prefix.class}"
 
     paths.each do |d|
       if d.children.empty? and not f.skip_clean? d
-        puts "rmdir: #{d} (empty)" if ARGV.verbose?
+        puts "rmdir: #{d} (empty)"
         d.rmdir
       end
     end
@@ -36,10 +43,10 @@ class Cleaner
 
       # strip unlinks the file and recreates it, thus breaking hard links!
       # is this expected behaviour? patch does it too… still, this fixes it
-      tmp = `/usr/bin/mktemp -t homebrew_strip`.chomp
+      tmp = `#{OS.mktemp} -t homebrew_strip`.chomp
       begin
-        `/usr/bin/strip #{args} -o #{tmp} #{path}`
-        `/bin/cat #{tmp} > #{path}`
+        `#{OS.strip} #{args} -o #{tmp} #{path}`
+        `#{OS.cat} #{tmp} > #{path}`
       ensure
         FileUtils.rm tmp
       end
@@ -63,6 +70,7 @@ class Cleaner
   end
 
   def clean_dir d
+     puts "cleandir: #{d} "
     d.find do |path|
       if path.directory?
         Find.prune if @f.skip_clean? path

@@ -8,13 +8,16 @@ module Homebrew extend self
     dirs = []
 
     %w[bin sbin etc lib include share].map{ |d| HOMEBREW_PREFIX+d }.each do |path|
-      path.find do |path|
-        path.extend ObserverPathnameExtension
-        if path.symlink?
-          path.unlink unless path.resolved_path_exists?
-        elsif path.directory?
-          dirs << path
+      begin
+        path.find do |path|
+          path.extend ObserverPathnameExtension
+          if path.symlink?
+            path.unlink unless path.resolved_path_exists?
+          elsif path.directory?
+            dirs << path
+          end
         end
+      rescue Errno::ENOENT
       end
     end
 

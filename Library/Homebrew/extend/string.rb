@@ -15,6 +15,7 @@ module StringInreplaceExtension
 
   # Removes variable assignments completely.
   def remove_make_var! flags
+    flags = [flags].flatten
     flags.each do |flag|
       # Also remove trailing \n, if present.
       gsub! Regexp.new("^#{flag}[ \\t]*=(.*)$\n?"), ""

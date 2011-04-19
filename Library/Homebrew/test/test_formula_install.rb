@@ -1,3 +1,4 @@
+$: << File.dirname(__FILE__); 
 require 'testing_env'
 
 require 'extend/ARGV' # needs to be after test/unit to avoid conflict with OptionsParser
@@ -67,7 +68,8 @@ class InstallTests < Test::Unit::TestCase
       assert_equal 3, f.bin.children.length
       libexec=f.prefix+'libexec'
       assert libexec.directory?
-      assert_equal 1, libexec.children.length
+      puts libexec.children.to_s
+      assert_equal 2, libexec.children.length #there is  ._NOOP as well.
       assert !(f.prefix+'main.c').exist?
       assert f.installed?
     

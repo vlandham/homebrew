@@ -1,6 +1,7 @@
 require 'pathname'
 
 class OS
+  
   def self.platform
     raw_platform = %x[uname -s].strip.chomp.downcase    
     if raw_platform =~ /darwin/
@@ -12,8 +13,16 @@ class OS
     end
   end
   
-  def mac?
+  def self.arch
+    `#{uname} -m`.strip.chomp
+  end
+  
+  def self.mac?
     self.platform == :mac
+  end
+  
+  def self.linux?
+    self.platform == :linux
   end
   
   def self.provider
@@ -33,7 +42,10 @@ class OS
     if self.provider.respond_to? method
       self.provider.send(method, *args, &block)
     else
-      raise Exception.new "no system call for #{method} in #{self.platform} OS"
+      %w{/bin /sbin /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin}.each do |p|
+        return "#{p}/#{method}" if File.exist?("#{p}/#{method}")
+      end
+      raise Exception.new "No system call for #{method} in #{self.platform} OS"
     end
   end
 end
@@ -53,15 +65,23 @@ class BaseOS
   end
   
   def which
-    '#{OS.which}'
+    "/usr/bin/which"
   end
   
   def which_s
-    'OS.which_s'
+    "/usr/bin/which -s"
   end
   
   def mktemp
     '/usr/bin/mktemp'
+  end
+  
+  def strip
+    '/usr/bin/strip'
+  end
+  
+  def cat
+    '/bin/cat'
   end
   
   def unzip
@@ -82,6 +102,18 @@ class BaseOS
   
   def cvs
     '/usr/bin/cvs'
+  end
+  
+  def du_h_depth(depth=0)
+    "/usr/bin/du -hd#{depth}"
+  end
+  
+  def uname
+    if File.exist? '/bin/uname'
+      '/bin/uname'
+    else
+      '/usr/bin/uname'
+    end
   end
   
 end
@@ -205,7 +237,7 @@ class MacOS < BaseOS
 end
 
 class LinuxOS < BaseOS
-  
+ 
   def full_name
     "Linux"
   end
@@ -219,7 +251,23 @@ class LinuxOS < BaseOS
   end
   
   def which_s
-    '#{OS.which}'
+    "/usr/bin/which"
+  end
+  
+  def mktemp
+    '/bin/mktemp'
+  end
+  
+  def tar
+    '/bin/tar'
+  end
+  
+  def du_h_depth(depth=0)
+    "/usr/bin/du -h --max-depth #{depth}"
+  end
+  
+  def x11_installed?
+    `#{which} 'X'`.chomp.strip.size > 0
   end
   
   def macports_or_fink_installed?

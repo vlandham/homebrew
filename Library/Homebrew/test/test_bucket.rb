@@ -1,3 +1,4 @@
+$: << File.dirname(__FILE__); 
 require 'testing_env'
 
 require 'extend/ARGV' # needs to be after test/unit to avoid conflict with OptionsParser
@@ -83,10 +84,17 @@ class BeerTasting < Test::Unit::TestCase
     require 'cleaner'
 
     nostdout do
+      f = nil
       assert_nothing_raised do
         f=TestBall.new
+      end
+      assert_nothing_raised do
         Homebrew.info_formula f
+      end
+      assert_nothing_raised do
         Cleaner.new f
+      end
+      assert_nothing_raised do
         Homebrew.prune
         #TODO test diy function too
       end

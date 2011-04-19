@@ -29,7 +29,7 @@ end
 
 # args are additional inputs to puts until a nil arg is encountered
 def ohai title, *sput
-  title = title.to_s[0, `/usr/bin/tput cols`.strip.to_i-4] unless ARGV.verbose?
+  title = title.to_s[0, `#{OS.tput} cols`.strip.to_i-4] unless ARGV.verbose?
   puts "#{Tty.blue}==>#{Tty.white} #{title}#{Tty.reset}"
   puts sput unless sput.empty?
 end
@@ -105,7 +105,7 @@ def quiet_system cmd, *args
 end
 
 def curl *args
-  safe_system '/usr/bin/curl', '-f#LA', Homebrew.user_agent, *args unless args.empty?
+  safe_system OS.curl, '-f#LA', Homebrew.user_agent, *args unless args.empty?
 end
 
 def puts_columns items, star_items=[]
@@ -117,13 +117,13 @@ def puts_columns items, star_items=[]
 
   if $stdout.tty?
     # determine the best width to display for different console sizes
-    console_width = `/bin/stty size`.chomp.split(" ").last.to_i
+    console_width = `#{OS.stty} size`.chomp.split(" ").last.to_i
     console_width = 80 if console_width <= 0
     longest = items.sort_by { |item| item.length }.last
     optimal_col_width = (console_width.to_f / (longest.length + 2).to_f).floor
     cols = optimal_col_width > 1 ? optimal_col_width : 1
 
-    IO.popen("/usr/bin/pr -#{cols} -t -w#{console_width}", "w"){|io| io.puts(items) }
+    IO.popen("#{OS.pr}-#{cols} -t -w#{console_width}", "w"){|io| io.puts(items) }
   else
     puts items
   end
@@ -139,7 +139,7 @@ def exec_editor *args
     elsif system "#{OS.which_s} edit"
       'edit' # BBEdit / TextWrangler
     else
-      '/usr/bin/vim' # Default to vim
+      OS.vim # Default to vim
     end
   end
 
@@ -152,7 +152,7 @@ end
 # GZips the given paths, and returns the gzipped paths
 def gzip *paths
   paths.collect do |path|
-    system "/usr/bin/gzip", path
+    system OS.gzip, path
     Pathname.new("#{path}.gz")
   end
 end
@@ -178,8 +178,8 @@ def archs_for_command cmd
   cmd = `#{OS.which} #{cmd}` unless Pathname.new(cmd).absolute?
   cmd.gsub! ' ', '\\ '  # Escape spaces in the filename.
 
-  lines = `/usr/bin/file -L #{cmd}`
-  archs = lines.to_a.inject([]) do |archs, line|
+  lines = `#{OS.file} -L #{cmd}`
+  archs = lines.split("\n").inject([]) do |archs, line|
     case line
     when /Mach-O (executable|dynamically linked shared library) ppc/
       archs << :ppc7400

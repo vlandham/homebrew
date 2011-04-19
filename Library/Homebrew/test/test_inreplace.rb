@@ -1,3 +1,4 @@
+$: << File.dirname(__FILE__); 
 require 'testing_env'
 require 'utils'
 require 'extend/string'
