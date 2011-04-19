@@ -1,54 +1,13 @@
 Homebrew
 ========
-Features and usage are [summarized on the homepage][homepage].
 
+Another Linux port of homebrew. 
 
-Quick Install to /usr/local
----------------------------
-[This script][gist] will prompt for confirmation before it does anything:
+Similar to [rubiojr's version]:https://github.com/rubiojr/homebrew in setup, but based on a newer version of homebrew (post 0.8).
 
-    ruby -e "$(curl -fsSL https://gist.github.com/raw/323731/install_homebrew.rb)"
+Plans are to use this specifically for managing bioinformatic packages.
+This will replicate much of [bio.brew]:https://github.com/drio/bio.brew but will be in ruby and thus not as terrible to deal with.
 
-Afterwards, [install Xcode][xcode].
+Please use the official [homebrew repository]:https://github.com/mxcl/homebrew if a bio-based Linux port is not interesting to you.
 
-
-Umm… I thought I could install it anywhere?
--------------------------------------------
-Indeed, you can. Refer to our [complete installation instructions][install].
-
-
-Dude! Just give me a one-liner!
--------------------------------
-Okay then, but please note this installs Homebrew as root and
-[we recommend against that][sudo].
-
-    curl -LsSf https://github.com/mxcl/homebrew/tarball/master | sudo /usr/bin/tar xvz -C/usr/local --strip 1
-
-
-But what packages are available?
---------------------------------
-Before installing you can
-[browse the Formula folder on GitHub][browse-formulae].
-
-After installing, you can use `brew search` to find packages or `brew server`
-to browse packages off of a local web server.
-
-
-More Documentation
-==================
-The [wiki][] is your friend.
-
-
-Who Are You?
-============
-I'm [Max Howell][mxcl] and I'm a splendid chap.
-
-
-[homepage]:http://mxcl.github.com/homebrew
-[gist]:http://gist.github.com/323731
-[xcode]:http://developer.apple.com/technologies/xcode.html
-[install]:http://wiki.github.com/mxcl/homebrew/installation
-[sudo]:http://wiki.github.com/mxcl/homebrew/installation#sudo
-[wiki]:http://wiki.github.com/mxcl/homebrew
-[mxcl]:http://twitter.com/mxcl
-[browse-formulae]:http://github.com/mxcl/homebrew/tree/master/Library/Formula/
+Thanks to Max Howell for providing such a great tool!
